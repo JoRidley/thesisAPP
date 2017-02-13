@@ -1,0 +1,19 @@
+<div class='jumbotron text-center'>
+	<% @image_url.each_with_index do |image_url, i| %>
+		<img src=<%= image_url %> id='image-<%= i %>' />
+	<% end %>
+</div>
+
+<style>
+	h1,p {
+		font-family: menlo;
+		color: white;
+	}
+	.jumbotron h1 {
+		color: black;
+		font-size: 20px;
+	}
+	a, a:hover {
+		color: #27ae60;
+	}
+</style>
