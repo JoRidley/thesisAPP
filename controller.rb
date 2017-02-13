@@ -24,9 +24,9 @@ post '/image_check' do
 	@user = User.findById(params['user'])
 	if @user.auth_image_ids == params['authSelections']
 		# redirect to auth
+		status 200
 	else
 		# redirect to back to images with notice no auth
+		status 200
 	end
-	status 200
-  body ''
 end
