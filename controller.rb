@@ -21,12 +21,16 @@ post '/auth/images' do
 end
 
 post '/image_check' do
-	@user = User.findById(params['user'])
-	if @user.auth_image_ids == params['authSelections']
-		# redirect to auth
+	# @user = User.findById(params['userId'])
+	# if @user.auth_image_ids == params['authSelections']
+	if true
 		status 200
 	else
-		# redirect to back to images with notice no auth
-		status 200
+		flash[:info] = 'This was the wrong combo of images'
+		status 404
 	end
+end
+
+get '/success' do
+	erb :success
 end
