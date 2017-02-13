@@ -1,0 +1,9 @@
+<div class='jumbotron text-center'>
+	<div class='alert'></div>
+	<div class='selected'></div>
+	<div data-id="<%= @user %>" id="user" ></div>
+	<div><span id="progress">0</span>/5 Selected</div>
+	<% @image_url.each_with_index do |image_url, i| %>
+		<img src=<%= image_url %> id='image-<%= i %>' />
+	<% end %>
+</div>

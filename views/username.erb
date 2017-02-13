@@ -1,7 +1,8 @@
 <div class='jumbotron text-center'>
-	<% @image_url.each_with_index do |image_url, i| %>
-		<img src=<%= image_url %> id='image-<%= i %>' />
-	<% end %>
+<form class="" action="/auth/images" method="post">
+	<input type="text" name="username" value="username" >
+	<input type="submit" name="" value="Submit" >
+</form>
 </div>
 
 <style>

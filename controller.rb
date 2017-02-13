@@ -3,19 +3,30 @@ get '/' do
 	erb :index
 end
 
-get '/hello' do
-
-	@image_url = []
-
-	9.times do |i|
-		@image_url.push('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShOG9aVYjWRfmHFhuckZa1uZgWYNBQw2lQSCqLlssvbUiocbHFIzv9qMgQ')
-	end
-
-	erb :hello
+get '/auth/init' do
+	erb :username
 end
 
-post '/accept' do
-	@params['authSelections']
+post '/auth/images' do
+	# @user = User.findById(params['username'])
+	# @image_url = Picture.generateLoginPictures(@user.auth_image_ids);
+@user =  123
+@image_url = []
+
+	9.times do |i|
+		@image_url.push('/cube.png')
+	end
+
+	erb :authImage
+end
+
+post '/image_check' do
+	@user = User.findById(params['user'])
+	if @user.auth_image_ids == params['authSelections']
+		# redirect to auth
+	else
+		# redirect to back to images with notice no auth
+	end
 	status 200
   body ''
 end
