@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'rake'
 gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'sinatra-assetpack'
@@ -13,5 +14,7 @@ gem 'rack'
 gem 'addressable'
 
 group :development do
+	gem 'tux'
+	gem 'shotgun'
 	gem 'dm-sqlite-adapter'
 end

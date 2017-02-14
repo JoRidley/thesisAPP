@@ -1,0 +1,18 @@
+<div class='jumbotron text-center'>
+	<div class='alert'></div>
+
+	<form>
+	  <div class="form-group">
+	    <label for="exampleInputEmail1">Username</label>
+	    <input type="email" class="form-control" id="signup-un" placeholder="Choose a username">
+	  </div>
+	</form>
+
+	<div class='selected'></div>
+	<div><span id="progress">0</span>/5 Selected</div>
+	<% @images.each do |image| %>
+		<img class='signup' src=<%= image.url %> id='<%= image.id %>' />
+	<% end %>
+</div>
+
+<button class="btn btn-default text-center" id='submit-signup' type="button">Create Account</button>

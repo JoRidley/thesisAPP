@@ -1,19 +1,35 @@
-var userSelections = function (ids, userId) {
+var userLoginSelections = function (ids, userId) {
+  console.log(userId)
     $.ajax({
         url: '/image_check',
         method: 'POST',
         data: {
-              authSelections: ids,
-              userId: userId
-            }
-    }).then(function (err, result) {
-      if (result === 'success') {
-        document.location('/success')
-      } else {
-        triggerAlert("that was the wrong combo of images")
-      }
+          authSelections: ids,
+          userId: userId
+        },
+        success: function(){
+          window.location = '/success'
+        },
+        error: function () {
+          triggerAlert('<p>That was the wrong items or order</p>')
+        }
     });
 };
+
+var createUserRequest = function (username, imageIds) {
+  $.ajax({
+    method: 'POST',
+    url: '/user/create',
+    data: {
+      username: username,
+      imageIds: imageIds
+    }
+  }).then(function(resp) {
+    console.log('happy')
+  }, function(err) {
+    console.log('sad')
+  });
+}
 
 var triggerAlert = function (html) {
   $('.alert')
@@ -48,7 +64,14 @@ var updateCountForProgessTacker = function (selections) {
 
 $( document ).ready(function() {
   var selections = [];
-  $('img').on('click', function (e) {
+
+  $('#submit-signup').on('click', function (e) {
+    e.preventDefault();
+    createUserRequest($('#signup-un').val(), getIds(selections))
+    selections = [];
+  });
+
+  $('img.login, img.signup').on('click', function (e) {
     var id = $(this).attr('id');
     var src = $(this).attr('src');
 
@@ -65,8 +88,9 @@ $( document ).ready(function() {
     updateCountForProgessTacker(selections);
 
     // WHEN selections is length 5 we need to handle the ids
-    if (selections.length === 5) {
-      userSelections(getIds(selections), $('#user').attr('data-id'));
+    var path = window.location.pathname;
+    if (selections.length === 5 && path === '/signin/images') {
+      userLoginSelections(getIds(selections), $('#user').attr('data-id'));
       selections = [];
     }
 
