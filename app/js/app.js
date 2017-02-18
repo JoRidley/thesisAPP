@@ -23,11 +23,15 @@ var createUserRequest = function (username, imageIds) {
     data: {
       username: username,
       imageIds: imageIds
+    },
+    success: function(){
+      window.location = '/signin/username'
+    },
+    error: function (a, b) {
+      console.log('sad')
+      console.log(a, b)
+      triggerAlert('<p>Something went wrong</p>')
     }
-  }).then(function(resp) {
-    console.log('happy')
-  }, function(err) {
-    console.log('sad')
   });
 }
 

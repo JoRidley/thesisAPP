@@ -10,6 +10,7 @@ class User
 	property :id, Serial
 	property :username, String
 	property :auth_image_ids, String
+	property :alt_image_ids, String
 	property :created_at, DateTime
 	property :updated_at, DateTime
 
