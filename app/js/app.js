@@ -1,11 +1,11 @@
-var userLoginSelections = function (ids, userId) {
-  console.log(userId)
+var userLoginSelections = function (ids, data) {
     $.ajax({
         url: '/image_check',
         method: 'POST',
         data: {
           authSelections: ids,
-          userId: userId
+          userId: data.id,
+          version: data.version
         },
         success: function(){
           window.location = '/success'
@@ -94,7 +94,10 @@ $( document ).ready(function() {
     // WHEN selections is length 5 we need to handle the ids
     var path = window.location.pathname;
     if (selections.length === 5 && path === '/signin/images') {
-      userLoginSelections(getIds(selections), $('#user').attr('data-id'));
+      var $user = $('#user');
+      var _data = { id: $user.attr('data-id'), version: $user.attr('data-version') };
+
+      userLoginSelections(getIds(selections), _data);
       selections = [];
     }
 

@@ -10,7 +10,8 @@ class User
 	property :id, Serial
 	property :username, String
 	property :auth_image_ids, String
-	property :alt_image_ids, String
+	property :filler_image_ids, String
+	property :filler_image_ids_2, String
 	property :created_at, DateTime
 	property :updated_at, DateTime
 
@@ -32,6 +33,7 @@ class Track
 	property :user_attempt, String
 	property :correct_login, String
 	property :successful_login, String
+	property :version, Integer
 
 end
 
