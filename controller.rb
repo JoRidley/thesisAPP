@@ -13,7 +13,13 @@ post '/user/create' do
 	filtered_img = Image.all.reject { |i| params['imageIds'].include? i.id.to_s }
 	alt = filtered_img.sample(5)
 	altIds = alt.map { |e| e.id }.join(',')
-	@user = User.create(username: params['username'], auth_image_ids: params['imageIds'].join(","), alt_image_ids: altIds)
+
+	@user = User.create(
+		username: params['username'],
+		auth_image_ids: params['imageIds'].join(","),
+		alt_image_ids: altIds
+	)
+
 	status 200
 end
 
@@ -39,6 +45,13 @@ end
 
 post '/image_check' do
 	@user = User.first(id: params['userId'])
+
+	Track.create(
+		user_id: @user.id,
+		user_attempt: params['authSelections'],
+		correct_login: @user.auth_image_ids.split(','),
+		successful_login: @user.auth_image_ids == params['authSelections'].join(','),
+	)
 
 	if @user.auth_image_ids == params['authSelections'].join(',')
 		redirect to('/success'), 303

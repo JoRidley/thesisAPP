@@ -24,6 +24,17 @@ class Image
 
 end
 
+class Track
+	include DataMapper::Resource
+
+	property :id, Serial
+	property :user_id, String
+	property :user_attempt, String
+	property :correct_login, String
+	property :successful_login, String
+
+end
+
 DataMapper.finalize.auto_upgrade!
 
 # User.create(username: 'jmiramant')

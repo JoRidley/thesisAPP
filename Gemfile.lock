@@ -117,6 +117,7 @@ DEPENDENCIES
   dm-migrations
   dm-sqlite-adapter
   image_suckr
+  json
   rack
   rake
   shotgun
