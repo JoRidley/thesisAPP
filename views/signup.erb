@@ -13,6 +13,7 @@
 	<% @images.each do |image| %>
 		<img class='signup' src=<%= image.url %> id='<%= image.id %>' />
 	<% end %>
+	<div class='type hidden' data-type="<%= @type %>" data-ids="<%= @imageIds %>" />
 </div>
 
 <button class="btn btn-default text-center" id='submit-signup' type="button">Create Account</button>

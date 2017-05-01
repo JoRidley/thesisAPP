@@ -16,13 +16,15 @@ var userLoginSelections = function (ids, data) {
     });
 };
 
-var createUserRequest = function (username, imageIds) {
+var createUserRequest = function (username, imageIds, type, allIds) {
   $.ajax({
     method: 'POST',
     url: '/user/create',
     data: {
       username: username,
-      imageIds: imageIds
+      imageIds: imageIds,
+      type: type,
+      allIds: JSON.stringify(allIds)
     },
     success: function(){
       window.location = '/signin/username'
@@ -71,7 +73,12 @@ $( document ).ready(function() {
 
   $('#submit-signup').on('click', function (e) {
     e.preventDefault();
-    createUserRequest($('#signup-un').val(), getIds(selections))
+    createUserRequest(
+      $('#signup-un').val(),
+      getIds(selections), 
+      $('.type').data('type'),
+      $('.type').data('ids')
+    );
     selections = [];
   });
 

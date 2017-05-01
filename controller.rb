@@ -3,14 +3,41 @@ get '/' do
 	erb :index
 end
 
+get '/consent' do
+	erb :consent
+end
+
+get '/expinfo' do
+	erb :expinfo
+end
+
+get '/survey' do
+	erb :survey
+end
+
+
 get '/signup' do
-	images = Image.all
-	@images = images.sample(10)
+	@type = ['img_seen', 'img_unseen', 'num_seen', 'num_unseen'][rand(0..3)]
+	if (@type == 'img_seen') || (@type == 'img_unseen')
+		images = Image.all
+	else
+		images = NumberImage.all
+	end
+	@images = images.sample(20)
+	@imageIds = @images.map { |i| i.id }
+
 	erb :signup
 end
 
 post '/user/create' do
-	filtered_img = Image.all.reject { |i| params['imageIds'].include? i.id.to_s }
+	type = params['type']
+	if type == 'img_seen' || type == 'num_seen'
+		filtered_img = params['allIds'].reject { |i| params['imageIds'].include? i.id.to_s }
+	elsif type == 'img_unseen'
+		filtered_img = Image.all.reject { |i| params['imageIds'].include? i.id.to_s }
+	else
+		filtered_img = NumberImage.all.reject { |i| params['imageIds'].include? i.id.to_s }
+	end
 	alt = filtered_img.sample(5)
 	altIdsArray = alt.map { |e| e.id }
 	altIds = altIdsArray.join(',')
@@ -22,7 +49,8 @@ post '/user/create' do
 		username: params['username'],
 		auth_image_ids: params['imageIds'].join(","),
 		filler_image_ids: altIds,
-		filler_image_ids_2: altIds2
+		filler_image_ids_2: altIds2,
+		type: type
 	)
 
 	status 200
@@ -43,9 +71,16 @@ post '/signin/images' do
 
 	@version = 1
 	allId = selectedIds.concat(altIds)
- 	@image_urls = allId.map do |i|
-		@version = 2
-		Image.get(i)
+	if @user.type == 'img_seen' || @user.type == 'img_unseen'
+	 	@image_urls = allId.map do |i|
+			@version = 2
+			Image.get(i)
+		end
+	else
+	 	@image_urls = allId.map do |i|
+			@version = 2
+			NumberImage.get(i)
+		end
 	end
 
 	@image_urls = @image_urls.shuffle

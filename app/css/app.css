@@ -3,3 +3,11 @@
   height: 120px;
   padding: 10px;
 }
+
+.panel-body  {
+	color: #fff;
+}
+
+.body-text {
+	padding: 10px 150px;
+}
