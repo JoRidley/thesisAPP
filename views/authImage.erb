@@ -4,7 +4,9 @@
 	<div data-id="<%= @user.id %>" data-version="<%= @version %>" id="user" ></div>
 	<div><span id="progress">0</span>/5 Selected</div>
   <div class='remove-last empty'>remove last</div>
-	<% @image_urls.each do |image| %>
-		<img class='login' src='/<%= image.url %>' id='<%= image.id %>' />
-	<% end %>
+  <div class='signin-container'>
+  	<% @image_urls.each do |image| %>
+  		<img class='login' src='/<%= image.url %>' id='<%= image.id %>' />
+  	<% end %>
+  </div>
 </div>
