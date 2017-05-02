@@ -1,6 +1,13 @@
-<div class='jumbotron text-center'>
+<div class="flex-grid">
+  <div class="col"></div>
+  <div class="col"></div>
+  <div class="col"></div>
+</div>
+
+<div class='upper'>
 	<div class='alert'></div>
 
+	<div class='jumbotron text-center'>
 	<form>
 	  <div class="form-group">
 	    <label for="exampleInputEmail1">Username</label>
@@ -16,4 +23,30 @@
 	<div class='type hidden' data-type="<%= @type %>" data-ids="<%= @imageIds %>" />
 </div>
 
+<h1> </h1>
+
 <button class="btn btn-default text-center" id='submit-signup' type="button">Create Account</button>
+
+
+
+<style>
+	/* Some custom style. Feel free to delete this */
+
+
+	h1,p {
+		font-family: menlo;
+		
+		color: white;
+	}
+	.jumbotron h1 {
+		color: white;
+		background-color: white;
+	}
+	a, a:hover {
+		color: #27ae60;
+	}
+	.upper {
+		background-image: url('../../Vassar_Library.jpg');
+		background-color: #cccccc;
+	}
+</style>

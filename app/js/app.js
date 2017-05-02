@@ -59,7 +59,7 @@ var getIds = function (selections) {
 var persistSelectedItemsInPreview = function (selections) {
   var imgs = ''
   selections.forEach(function (i){
-    imgs += '<img style="width:20px;height:20px" src=' + i.src + '/>';
+    imgs += '<img style="width:75px;height:75px" src=' + i.src + '/>';
   });
   selected('<div>Your selected images:<br/> ' + imgs + '</div>' );
 };

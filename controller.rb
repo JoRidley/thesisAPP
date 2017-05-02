@@ -23,7 +23,7 @@ get '/signup' do
 	else
 		images = NumberImage.all
 	end
-	@images = images.sample(20)
+	@images = images.sample(16)
 	@imageIds = @images.map { |i| i.id }
 
 	erb :signup
