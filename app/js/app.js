@@ -16,13 +16,15 @@ var userLoginSelections = function (ids, data) {
     });
 };
 
-var createUserRequest = function (username, imageIds) {
+var createUserRequest = function (username, imageIds, type, allIds) {
   $.ajax({
     method: 'POST',
     url: '/user/create',
     data: {
       username: username,
-      imageIds: imageIds
+      imageIds: imageIds,
+      type: type,
+      allIds: JSON.stringify(allIds)
     },
     success: function(){
       window.location = '/signin/username'
@@ -57,7 +59,7 @@ var getIds = function (selections) {
 var persistSelectedItemsInPreview = function (selections) {
   var imgs = ''
   selections.forEach(function (i){
-    imgs += '<img style="width:20px;height:20px" src=' + i.src + '/>';
+    imgs += '<img style="width:75px;height:75px" src=' + i.src + '/>';
   });
   selected('<div>Your selected images:<br/> ' + imgs + '</div>' );
 };
@@ -71,7 +73,12 @@ $( document ).ready(function() {
 
   $('#submit-signup').on('click', function (e) {
     e.preventDefault();
-    createUserRequest($('#signup-un').val(), getIds(selections))
+    createUserRequest(
+      $('#signup-un').val(),
+      getIds(selections), 
+      $('.type').data('type'),
+      $('.type').data('ids')
+    );
     selections = [];
   });
 
