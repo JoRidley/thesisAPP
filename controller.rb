@@ -29,11 +29,20 @@ get '/signup' do
 	erb :signup
 end
 
+post '/api/username' do
+	user = User.first(username: params['username'])
+	if (user)
+		status 401	
+	else
+		status 200
+	end
+end
+
 post '/user/create' do
 	type = params['type']
-	if type == 'img_seen' || type == 'num_seen'
-		filtered_img = params['allIds'].reject { |i| params['imageIds'].include? i.id.to_s }
-	elsif type == 'img_unseen'
+	if type == 'img_unseen' || type == 'num_unseen'
+		filtered_img = params['allIds'].to_a.reject { |i| params['imageIds'].include? i.id.to_s }
+	elsif type == 'img_seen'
 		filtered_img = Image.all.reject { |i| params['imageIds'].include? i.id.to_s }
 	else
 		filtered_img = NumberImage.all.reject { |i| params['imageIds'].include? i.id.to_s }

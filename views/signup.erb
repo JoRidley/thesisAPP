@@ -17,6 +17,7 @@
 
 	<div class='selected'></div>
 	<div><span id="progress">0</span>/5 Selected</div>
+	<div class='remove-last empty'>remove last</div>
 	<% @images.each do |image| %>
 		<img class='signup' src=<%= image.url %> id='<%= image.id %>' />
 	<% end %>

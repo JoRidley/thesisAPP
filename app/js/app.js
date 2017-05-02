@@ -16,7 +16,7 @@ var userLoginSelections = function (ids, data) {
     });
 };
 
-var createUserRequest = function (username, imageIds, type, allIds) {
+var uniqueUser = function (username, imageIds, type, allIds) {
   $.ajax({
     method: 'POST',
     url: '/user/create',
@@ -34,6 +34,23 @@ var createUserRequest = function (username, imageIds, type, allIds) {
       console.log(a, b)
       triggerAlert('<p>Something went wrong</p>')
     }
+  });
+}
+
+var createUserRequest = function (username, imageIds, type, allIds) {
+  $.ajax({
+    method: 'POST',
+    url: '/api/username',
+    data: {
+      username: username,
+    }, 
+    success: function () {
+      uniqueUser(username, imageIds, type, allIds);
+    }, 
+    error: function () {
+      triggerAlert('<p>This username is already taken. Please select a different one.</p>')
+    }
+
   });
 }
 
@@ -68,19 +85,39 @@ var updateCountForProgessTacker = function (selections) {
   $('#progress').text(selections.length);
 }
 
+var toggleRemoveState = function (selections) {
+  if (selections.length > 0) {
+    $('.remove-last').show()
+  } else {
+    $('.remove-last').hide()
+  }
+};
+
 $( document ).ready(function() {
   var selections = [];
 
   $('#submit-signup').on('click', function (e) {
     e.preventDefault();
-    createUserRequest(
-      $('#signup-un').val(),
-      getIds(selections), 
-      $('.type').data('type'),
-      $('.type').data('ids')
-    );
-    selections = [];
+    if (selections.length === 5) {
+      createUserRequest(
+        $('#signup-un').val(),
+        getIds(selections), 
+        $('.type').data('type'),
+        $('.type').data('ids')
+      );
+      selections = []; 
+    } else {
+      triggerAlert('<p>Please select at least 5 images.</p>')
+    }
   });
+
+  $('.remove-last').on('click', function (e) {
+    selections.splice((selections.length - 1), 1);
+    persistSelectedItemsInPreview(selections);
+    updateCountForProgessTacker(selections);
+    toggleRemoveState(selections);
+  });
+
 
   $('img.login, img.signup').on('click', function (e) {
     var id = $(this).attr('id');
@@ -90,6 +127,7 @@ $( document ).ready(function() {
     if (getIds(selections).indexOf(id) === -1 ) {
       // If NOT duplicate
       selections.push({id: id, src: src});
+      toggleRemoveState(selections)
       persistSelectedItemsInPreview(selections);
     } else {
       // If IS duplicate
