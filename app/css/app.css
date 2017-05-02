@@ -50,3 +50,8 @@
 .empty {
   display: none;
 }
+
+.image-container {
+  width: 503px;
+  margin: 0 auto;
+}
