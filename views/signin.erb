@@ -1,6 +1,6 @@
 <div class='jumbotron text-center'>
 <form class="" action="/signin/images" method="post">
-	<input type="text" name="username" placeholder="username" >
+	<input type="text" name="username" placeholder="username" style="border: none;border-radius: 3px;padding: 8px;">
 	<input type="submit" name="" value="Submit" >
 </form>
 </div>
@@ -8,14 +8,19 @@
 <style>
 
 	body {
-    background-image: url('../../Vassar_Library.jpg');
-    background-color: #cccccc;
+		background-image: url('../../Vassar_Library.jpg');
+		background-color: #cccccc;
+	    background-repeat: no-repeat;
+	    background-size: 110%;
 
 	}
 
 	h1,p {
 		font-family: menlo;
 		color: black;
+	}
+	.jumbotron {
+	    min-height: 800px;
 	}
 	.jumbotron h1 {
 		color: black;

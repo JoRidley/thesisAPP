@@ -40,8 +40,10 @@ end
 
 post '/user/create' do
 	type = params['type']
-	if type == 'img_unseen' || type == 'num_unseen'
+	if type == 'img_unseen'
 		filtered_img = params['allIds'].to_a.reject { |i| params['imageIds'].include? i.id.to_s }
+	elsif type == 'num_unseen'
+		filtered_img = params['allIds'].tr('[]', '').split(',').reject { |i| params['imageIds'].include? i.id.to_s }
 	elsif type == 'img_seen'
 		filtered_img = Image.all.reject { |i| params['imageIds'].include? i.id.to_s }
 	else
@@ -99,18 +101,24 @@ end
 
 post '/image_check' do
 	@user = User.first(id: params['userId'])
+	isCorrect = @user.auth_image_ids == params['authSelections'].join(',')
+	pastAttempts = Track.all(user_id: @user.id).all(order: [:num_attempts.desc])
+	attempts = pastAttempts[0]
+	attempts ? attempts = attempts.num_attempts : attempts = 1
 
 	Track.create(
 		user_id: @user.id,
 		user_attempt: params['authSelections'],
 		correct_login: @user.auth_image_ids.split(','),
-		successful_login: @user.auth_image_ids == params['authSelections'].join(','),
+		successful_login: isCorrect,
 		version: params['version'].to_i,
+		num_attempts: attempts + 1
 	)
 
-	if @user.auth_image_ids == params['authSelections'].join(',')
+	if isCorrect || (attempts >= 3)
 		redirect to('/success'), 303
 	else
+		attempts += attempts
 		status 404
 	end
 
