@@ -38,29 +38,42 @@ post '/api/username' do
 	end
 end
 
-post '/user/create' do
-	type = params['type']
-	if type == 'img_unseen'
-		filtered_img = params['allIds'].to_a.reject { |i| params['imageIds'].include? i.id.to_s }
-	elsif type == 'num_unseen'
-		filtered_img = params['allIds'].tr('[]', '').split(',').reject { |i| params['imageIds'].include? i.id.to_s }
-	elsif type == 'img_seen'
-		filtered_img = Image.all.reject { |i| params['imageIds'].include? i.id.to_s }
-	else
-		filtered_img = NumberImage.all.reject { |i| params['imageIds'].include? i.id.to_s }
-	end
+def resolve_seen(filtered_img)
 	alt = filtered_img.sample(5)
 	altIdsArray = alt.map { |e| e.id }
 	altIds = altIdsArray.join(',')
 	alt2 = filtered_img.reject { |i| altIdsArray.include? i.id.to_s }.sample(5)
 	altIdsArray2 = alt2.map { |e| e.id }
 	altIds2 = altIdsArray2.join(',')
+	{ altIds2: altIds2, altIds: altIds }
+end
+
+def resolve_unseen(filtered_img)
+	altIds = filtered_img.sample(5)
+	altIds2 = filtered_img.reject { |i| altIds.include? i.to_s }.sample(5)
+	{ altIds2: altIds2, altIds: altIds }
+end
+
+post '/user/create' do
+	type = params['type']
+	puts type
+	if type == 'img_unseen' || type == 'num_unseen'
+		filtered_img = params['allIds'].tr('[]', '').split(',').reject { |i| params['imageIds'].include? i.to_s }
+		puts filtered_img.class
+		parsedIds = resolve_unseen(filtered_img)
+	elsif type == 'img_seen'
+		filtered_img = Image.all.reject { |i| params['imageIds'].include? i.id.to_s }
+		parsedIds = resolve_seen(filtered_img)
+	else
+		filtered_img = NumberImage.all.reject { |i| params['imageIds'].include? i.id.to_s }
+		parsedIds = resolve_seen(filtered_img)
+	end
 
 	@user = User.create(
 		username: params['username'],
 		auth_image_ids: params['imageIds'].join(","),
-		filler_image_ids: altIds,
-		filler_image_ids_2: altIds2,
+		filler_image_ids: parsedIds['altIds'],
+		filler_image_ids_2: parsedIds['altIds2'],
 		type: type
 	)
 

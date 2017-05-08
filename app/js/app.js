@@ -27,7 +27,7 @@ var uniqueUser = function (username, imageIds, type, allIds) {
       allIds: JSON.stringify(allIds)
     },
     success: function(){
-      window.location = '/signin/username'
+      window.location = '/survey'
     },
     error: function (a, b) {
       console.log('sad')

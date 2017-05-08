@@ -57,7 +57,7 @@
 }
 
 .signin-container {
-  width: 800px;
+  width: 543px;
   margin: 0 auto;
 
 }
@@ -81,10 +81,41 @@
   text-align: center;
   font-size: 18px;
   margin: 0;
-  padding: 20px;
 }
 
 .signin-container img {
-    height: 256px;
-    width: 256px;
+    height: 125px;
+    width: 125px;
+    margin: 4px;
+}
+
+#trophy-container {
+  width: 200px;
+  height: 1000px;
+  margin-right: auto;
+  margin-left: 636px;
+  margin-top: auto;
+  margin-bottom: auto;
+  background-image: url('../../trophy.jpg');
+  background-repeat: no-repeat;
+  background-size: 75%;
+}
+
+#survey-container {
+  width: 1000px;
+  height: 1000px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+
+#cheat-container {
+  width: 1000px;
+  height: 1000px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
 }
