@@ -11,7 +11,7 @@ var userLoginSelections = function (ids, data) {
           window.location = '/success'
         },
         error: function () {
-          triggerAlert('<p>That was the wrong items or order</p>')
+          triggerAlert('<p>Wrong items or order.</p>')
         }
     });
 };
@@ -48,7 +48,7 @@ var createUserRequest = function (username, imageIds, type, allIds) {
       uniqueUser(username, imageIds, type, allIds);
     }, 
     error: function () {
-      triggerAlert('<p>This username is already taken. Please select a different one.</p>')
+      triggerAlert('<p>That username is taken. Try another.</p>')
     }
 
   });
@@ -76,7 +76,7 @@ var getIds = function (selections) {
 var persistSelectedItemsInPreview = function (selections) {
   var imgs = ''
   selections.forEach(function (i){
-    imgs += '<img style="width:75px;height:75px" src=' + i.src + '/>';
+    imgs += '<img style="width:75px;height:75px;padding:1pt" src=' + i.src + '/>';
   });
   selected('<div>Your selected images:<br/> ' + imgs + '</div>' );
 };
@@ -107,7 +107,7 @@ $( document ).ready(function() {
       );
       selections = []; 
     } else {
-      triggerAlert('<p>Please select at least 5 images.</p>')
+      triggerAlert('<p>Please select 5 images.</p>')
     }
   });
 
@@ -131,7 +131,7 @@ $( document ).ready(function() {
       persistSelectedItemsInPreview(selections);
     } else {
       // If IS duplicate
-      triggerAlert('<p>You have already selected this image.<p>')
+      triggerAlert('<p>Image already selected.<p>')
     }
 
     updateCountForProgessTacker(selections);
