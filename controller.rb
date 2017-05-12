@@ -51,15 +51,14 @@ end
 def resolve_unseen(filtered_img)
 	altIds = filtered_img.sample(5)
 	altIds2 = filtered_img.reject { |i| altIds.include? i.to_s }.sample(5)
-	{ altIds2: altIds2, altIds: altIds }
+	{ altIds2: altIds2.map{ |e| "#{e}"}.join(','), altIds: altIds.map{ |e| "#{e}"}.join(',') }
 end
 
 post '/user/create' do
 	type = params['type']
-	puts type
+
 	if type == 'img_unseen' || type == 'num_unseen'
 		filtered_img = params['allIds'].tr('[]', '').split(',').reject { |i| params['imageIds'].include? i.to_s }
-		puts filtered_img.class
 		parsedIds = resolve_unseen(filtered_img)
 	elsif type == 'img_seen'
 		filtered_img = Image.all.reject { |i| params['imageIds'].include? i.id.to_s }
@@ -72,8 +71,8 @@ post '/user/create' do
 	@user = User.create(
 		username: params['username'],
 		auth_image_ids: params['imageIds'].join(","),
-		filler_image_ids: parsedIds['altIds'],
-		filler_image_ids_2: parsedIds['altIds2'],
+		filler_image_ids: parsedIds[:altIds],
+		filler_image_ids_2: parsedIds[:altIds2],
 		type: type
 	)
 
@@ -86,6 +85,10 @@ end
 
 post '/signin/images' do
 	@user = User.first(username: params['username'])
+	puts '@user.auth_image_ids'
+	puts @user.filler_image_ids
+	puts @user.filler_image_ids_2
+	puts '@user.filler_image_ids'
 	selectedIds = @user.auth_image_ids.split(',')
 
 	altIds = @user.filler_image_ids.split(',')
